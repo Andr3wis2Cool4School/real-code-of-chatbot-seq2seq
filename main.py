@@ -16,14 +16,14 @@ def main():
     embedding_path = './embedding/glove.42B.300d.txt'
 
     print('We are Loading the csv file now....')
-    data = pd.read_csv(data_dir_path + '/finaldata.csv')
+    data = pd.read_csv(data_dir_path + '/cons.csv')
     print('Finished loading data...')
 
     print('Extract X and y from the Dataframe now...')
-    data = data[data['comment'].notnull()]
-    data = data[data['reply'].notnull()]
-    X = data.comment
-    Y = data.reply
+    data = data[data['1'].notnull()]
+    data = data[data['2'].notnull()]
+    X = data['1']
+    Y = data['2']
 
     config = fit_text(X, Y)
 

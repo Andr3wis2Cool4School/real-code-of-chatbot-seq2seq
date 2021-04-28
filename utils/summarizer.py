@@ -171,7 +171,7 @@ class Seq2seqGloveSummarizer(object):
         train_num_batches = len(Xtrain) // batch_size
         dev_num_batches = len(Xdev) // batch_size
 
-        history = self.model.fit_generator(generator=train_gen, steps_pre_epoch=train_num_batches,
+        history = self.model.fit_generator(generator=train_gen, steps_per_epoch=train_num_batches,
                                            epochs=epochs,
                                            verbose=True,
                                            validation_data=dev_gen, validation_steps=dev_num_batches,
