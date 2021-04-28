@@ -45,7 +45,7 @@ def main():
     print('Validation Size: ', len(Xdev))
 
     print('Starting training....')
-    history = summarizer.fit(Xtrain, Ytrain, Xdev, Ydev, epochs=1, batch_size=1)
+    history = summarizer.fit(Xtrain, Ytrain, Xdev, Ydev, epochs=10, batch_size=64)
 
     history_plot_file_path = report_dir_path + '/' + Seq2seqGloveSummarizer.model_name + '-history.png'
     plot_and_save_history(history, summarizer.model_name, history_plot_file_path, metrics={'loss', 'acc'})

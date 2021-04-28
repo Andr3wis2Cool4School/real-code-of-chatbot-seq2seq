@@ -84,15 +84,19 @@ class Seq2seqGloveSummarizer(object):
                 end = (batchIdx + 1) * batch_size
                 encoder_input_data_batch = pad_sequences(x_samples[start:end], self.max_input_seq_length)
                 decoder_target_data_batch = np.zeros(shape=(batch_size, self.max_target_seq_length, self.num_target_tokens))
-                decoder_input_data_batch = np.zeros(shape=(batch_size, self.max_target_seq_length, self.num_target_tokens))
+                decoder_input_data_batch = np.zeros(shape=(batch_size, self.max_target_seq_length, GLOVE_EMBEDDING_SIZE))
                 for lineIdx, target_words in enumerate(y_samples[start:end]):
-                    w2idx = 0
-                    if w in self.target_word2idx:
-                        w2idx = self.target_word2idx[w]
-                    if w2idx != 0:
-                        decoder_input_data_batch[lineIdx, idx-1, w2idx] = 1
-                        if idx > 0:
-                            decoder_target_data_batch[lineIdx, idx-1, w2idx] = 1
+                    for idx, w in enumerate(target_words):
+                        w2idx = 0
+                        if w in self.word2em:
+                            emb = self.unknown_emb
+                            decoder_input_data_batch[lineIdx, idx, :] = emb
+                        if w in self.target_idx2word:    
+                                w2idx = self.target_word2idx[w]
+                        if w2idx != 0:
+                            decoder_input_data_batch[lineIdx, idx-1, w2idx] = 1
+                            if idx > 0:
+                                decoder_target_data_batch[lineIdx, idx-1, w2idx] = 1
                 yield [encoder_input_data_batch, decoder_input_data_batch], decoder_target_data_batch
     
     
